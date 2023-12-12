@@ -1,9 +1,3 @@
-import 'package:carpool/infoHandler/app_info.dart';
-import 'package:carpool/screens/forgot_password_screen.dart';
-import 'package:carpool/screens/login_screen.dart';
-import 'package:carpool/screens/main_screen.dart';
-import 'package:carpool/screens/search_places_screen.dart';
-import 'package:carpool/screens/signup_screen.dart';
 import 'package:carpool/splashScreen/splash_screen.dart';
 import 'package:carpool/themeProvider/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -26,17 +20,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => AppInfo(),
-        child: MaterialApp(
-          title: 'Flutter Demo',
-          themeMode: ThemeMode.system,
-          theme: MyThemes.lightTheme,
-          darkTheme: MyThemes.darkTheme,
+    return MaterialApp(
+      title: 'Flutter Demo',
+      themeMode: ThemeMode.system,
+      theme: MyThemes.lightTheme,
+      darkTheme: MyThemes.darkTheme,
 
-          debugShowCheckedModeBanner: false,
-          home: SplashScreen(),
-        ),
+      debugShowCheckedModeBanner: false,
+      home: SplashScreen(),
     );
   }
 }

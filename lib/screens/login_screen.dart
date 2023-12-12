@@ -11,7 +11,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../global/db_helper.dart';
 import '../global/global.dart';
 import '../models/user_model.dart';
-import 'main_screen.dart';
 import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -77,6 +76,8 @@ class _LoginScreenState extends State<LoginScreen> {
         String currentUserId = currentUser!.uid;
         List<Map> existingUser = await mydb.read('''SELECT * FROM Users WHERE ID = '$currentUserId' ''');
 
+        print('Existing User is: ${existingUser}');
+
         if (existingUser.isEmpty) {
           // User doesn't exist, insert a new record
           await mydb.write('''INSERT INTO Users
@@ -87,14 +88,8 @@ class _LoginScreenState extends State<LoginScreen> {
           print("New user inserted successfully.");
         }
 
-
-        // await mydb.write('''INSERT INTO Users
-        //   (ID, Name, Email, Phone) VALUES
-        //   ('${userModelCurrentInfo!.id}', '${userModelCurrentInfo!.name}',
-        //   '${userModelCurrentInfo!.email}', '${userModelCurrentInfo!.phone}')''');
       }
     });
-    // print("Local database update finished.");
   }
 
 

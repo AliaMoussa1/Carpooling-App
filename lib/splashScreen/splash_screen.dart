@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:carpool/assistants/assistant_methods.dart';
 import 'package:carpool/screens/login_screen.dart';
-import 'package:carpool/screens/main_screen.dart';
 import 'package:carpool/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/global/global.dart';
