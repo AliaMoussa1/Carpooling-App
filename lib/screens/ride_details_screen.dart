@@ -26,6 +26,8 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
 
   Future<void>  _requestRide(String rideKey) async{
 
+    //Check if the app's time rules persist
+
     if(DateTime.now().hour > 22 && widget.ride['time'] == "Morning Ride: 7:30 am" && widget.ride['date'] == DateFormat('dd-MM-yyyy').format(tomorrow)){
       Fluttertoast.showToast(msg: "Can't request morning ride after 10 pm");
       return;
@@ -50,15 +52,17 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
       return;
     }
 
-    DatabaseReference rideRequestsRef = FirebaseDatabase.instance.ref().child("rideRequests");
+    // DatabaseReference rideRequestsRef = FirebaseDatabase.instance.ref().child("rideRequests");
 
     Map<String, dynamic> requestMap = {
-      currentUser!.uid: {
         "request_status": "pending",
-      },
     };
 
-    await rideRequestsRef.child(rideKey).set(requestMap);
+    // await rideRequestsRef.child(rideKey).set(requestMap);
+
+
+    DatabaseReference rideRequestsRef = FirebaseDatabase.instance.ref().child("rides");
+    await rideRequestsRef.child(currentUser!.uid).child(rideKey).set(requestMap);
 
   }
 

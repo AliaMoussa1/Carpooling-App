@@ -40,22 +40,34 @@ class _FindRidesScreenState extends State<FindRidesScreen> {
 
   Future<List?> _getRideData() async {
     DatabaseReference ridesRef = FirebaseDatabase.instance.ref().child("rides");
+
+    // ridesRef.onChildAdded.listen((DatabaseEvent event) {
+    //   Map data = event.snapshot.value as Map;
+    //   // print("Data: " '$data');
+    //   rideList.add(data);
+    //   // print("RideList: " "$rideList");
+    //
+    //   // Updating the UI whenever new data is added
+    //   setState(() {
+    //     filteredRides = List.from(rideList.reversed);
+    //   });
+    // });
+
     ridesRef.onChildAdded.listen((DatabaseEvent event) {
       Map data = event.snapshot.value as Map;
-      // print("Data: " '$data');
       rideList.add(data);
-      // print("RideList: " "$rideList");
 
-      // Updating the UI whenever new data is added
-      setState(() {
-        filteredRides = List.from(rideList.reversed);
-      });
+      // Check if the widget is mounted before updating the UI
+      if (mounted) {
+        setState(() {
+          filteredRides = List.from(rideList.reversed);
+        });
+      }
     });
 
     try {
       return rideList;
     } catch (e) {
-      // Handle the error appropriately
     }
   }
 
