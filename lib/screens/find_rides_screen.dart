@@ -1,6 +1,8 @@
 import 'package:carpool/screens/ride_details_screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 
 
 class FindRidesScreen extends StatefulWidget {
@@ -41,21 +43,13 @@ class _FindRidesScreenState extends State<FindRidesScreen> {
   Future<List?> _getRideData() async {
     DatabaseReference ridesRef = FirebaseDatabase.instance.ref().child("rides");
 
-    // ridesRef.onChildAdded.listen((DatabaseEvent event) {
-    //   Map data = event.snapshot.value as Map;
-    //   // print("Data: " '$data');
-    //   rideList.add(data);
-    //   // print("RideList: " "$rideList");
-    //
-    //   // Updating the UI whenever new data is added
-    //   setState(() {
-    //     filteredRides = List.from(rideList.reversed);
-    //   });
-    // });
-
     ridesRef.onChildAdded.listen((DatabaseEvent event) {
       Map data = event.snapshot.value as Map;
+      print("Data is : ${data}");
+
+
       rideList.add(data);
+      print("RideList: " "$rideList");
 
       // Check if the widget is mounted before updating the UI
       if (mounted) {
@@ -65,11 +59,45 @@ class _FindRidesScreenState extends State<FindRidesScreen> {
       }
     });
 
+
     try {
       return rideList;
     } catch (e) {
     }
   }
+
+
+
+
+  // DateTime today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+  // Future<List?> _getRideData() async {
+  //   DatabaseReference ridesRef = FirebaseDatabase.instance.ref().child("rides");
+  //
+  //   ridesRef.onChildAdded.listen((DatabaseEvent event) {
+  //     String rideKey = event.snapshot.key ?? "";
+  //     Map? data = event.snapshot.value as Map?;
+  //
+  //     if (data != null && data.containsKey('date')) {
+  //       // Access the nested "date" key
+  //       String dateString = data['date'] as String;
+  //       DateTime rideDate = _parseRideDate(dateString);
+  //
+  //       // Check if the ride date is equal to or after today
+  //       if (isTodayOrAfter(rideDate)) {
+  //         // Add the ride data along with the rideKey to rideList
+  //         rideList.add(data);
+  //         print("RideList: " "$rideList");
+  //
+  //         // Check if the widget is mounted before updating the UI
+  //         if (mounted) {
+  //           setState(() {
+  //             filteredRides = List.from(rideList.reversed);
+  //           });
+  //         }
+  //       }
+  //     }
+  //   });
 
 
   @override
@@ -87,6 +115,23 @@ class _FindRidesScreenState extends State<FindRidesScreen> {
     super.initState();
   }
 
+  DateTime _parseRideDate(String dateString) {
+    // Parse date in the format dd-MM-yyyy
+    List<String> dateParts = dateString.split('-');
+    int day = int.parse(dateParts[0]);
+    int month = int.parse(dateParts[1]);
+    int year = int.parse(dateParts[2]);
+    return DateTime(year, month, day);
+  }
+
+  bool isTodayOrAfter(DateTime date) {
+    DateTime now = DateTime.now();
+    DateTime today = DateTime(now.year, now.month, now.day);
+
+    return date.isAtSameMomentAs(today) || date.isAfter(today);
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -103,7 +148,9 @@ class _FindRidesScreenState extends State<FindRidesScreen> {
 
     } else {
       // Copy all rides when searchText is empty
-      filteredRides = List.from(rideList);
+      filteredRides = List.from(rideList.reversed);
+      print("filteredRides is : ${rideList}");
+
     }
 
 
@@ -154,6 +201,11 @@ class _FindRidesScreenState extends State<FindRidesScreen> {
             return Column(
               children: rideMap.entries.map<Widget>((entry) {
                 var rideDetails = entry.value;
+                // DateTime rideDate = _parseRideDate(rideDetails['date']);
+                //
+                // if (isTodayOrTomorrow(rideDate)) {
+                //
+                // }
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,7 +216,7 @@ class _FindRidesScreenState extends State<FindRidesScreen> {
                         style: TextStyle(color: Colors.black),
                       ),
                       subtitle: Text(
-                        '${rideDetails['time']}\n${rideDetails['date']}',
+                        '${rideDetails['status']}\n${rideDetails['time']}\n${rideDetails['date']}',
                         style: TextStyle(color: Colors.black45, fontSize: 16),
                       ),
                       trailing: TextButton(

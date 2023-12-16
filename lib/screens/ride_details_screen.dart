@@ -52,20 +52,23 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
       return;
     }
 
-    // DatabaseReference rideRequestsRef = FirebaseDatabase.instance.ref().child("rideRequests");
 
     Map<String, dynamic> requestMap = {
-        "request_status": "pending",
+      "request_status": "pending",
+      "requesting_user_name": userModelCurrentInfo!.name,
+      "requesting_user_id": currentUser!.uid,
     };
 
-    // await rideRequestsRef.child(rideKey).set(requestMap);
 
 
     DatabaseReference rideRequestsRef = FirebaseDatabase.instance.ref().child("rides");
-    await rideRequestsRef.child(currentUser!.uid).child(rideKey).set(requestMap);
+    await rideRequestsRef.child(widget.ride['driver_key']).child(rideKey).child("ride_requests").push().set(requestMap);
+
+    print('Widget.Ride is : ${widget.ride}');
 
   }
 
+  bool isPressed = false;
 
 
   @override
@@ -261,6 +264,34 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
                 ),
               ),
             )
+
+            // ElevatedButton(
+            //   onPressed: () {
+            //     // Send request to driver and check time and date conditions
+            //     _requestRide(widget.rideKey);
+            //     // Navigator.push(context, MaterialPageRoute(builder: (c) => RidesHistoryScreen()));
+            //     setState(() {
+            //       isPressed = true;
+            //     });
+            //   },
+            //   style: ButtonStyle(
+            //     backgroundColor: MaterialStateColor.resolveWith((states) {
+            //       if (isPressed) {
+            //         // Color when button is pressed
+            //         return Colors.grey; // Change to your desired color
+            //       }
+            //       // Default color
+            //       return Colors.deepPurpleAccent;
+            //     }),
+            //   ),
+            //   child: Text(
+            //         isPressed ? 'Requested' : 'Request',
+            //         style: TextStyle(
+            //           fontSize: 25,
+            //           color: Colors.white,
+            //         ),
+            //       ),
+            //  ),
 
 
           ],

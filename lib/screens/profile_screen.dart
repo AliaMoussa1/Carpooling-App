@@ -18,13 +18,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
   Future Reading_Database() async {
-    currentUser = firebaseAuth.currentUser;
 
     if (currentUser != null) {
       String currentUserId = currentUser!.uid;
         print(currentUserId);
 
       List<Map> response = await mydb.read('''SELECT * FROM Users WHERE ID = '$currentUserId' ''');
+      print('SQL Response is: ${response}');
 
       userData = [];
       userData.addAll(response);
@@ -33,16 +33,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+
   @override
   void initState() {
-    //Reading_Database()
-    Reading_Database().then((_) {
-      setState(() {
-        isLoading = false;
-      });
-    });
     super.initState();
     mydb.checkdata();
+    _initializeProfile();
+  }
+
+  Future<void> _initializeProfile() async {
+    await Future.delayed(Duration(seconds: 3));
+
+    // Fetch user data from the local database
+    await Reading_Database();
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   bool isLoading = true;
@@ -65,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ? CircularProgressIndicator()
           : userData.isNotEmpty // Add this null check
     ?
-    Padding(
+      Padding(
             padding: const EdgeInsets.all(10),
             child: ListView(
               children: <Widget>[
@@ -125,6 +132,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
+
+                SizedBox(height: 50,),
+
+                Container(
+                  width: 100,
+                  padding: const EdgeInsets.all(8),
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        await firebaseAuth.signOut();
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                      },
+                      child: Text(
+                        "Logout",
+                        style: TextStyle(fontSize: 18),
+                      )
+                  ),
+                )
+
+
               ],
             ),
           ): Center(
@@ -133,6 +159,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: TextStyle(fontSize: 18),
               ),
             ),
+
 
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,

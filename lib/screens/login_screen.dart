@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         // Update local database with user data
         await updateLocalDatabase();
-        await Future.delayed(Duration(seconds: 1));
+        await Future.delayed(Duration(seconds: 3));
         print("Local database update complete.");
 
         await Fluttertoast.showToast(msg: "Successfully logged in");
@@ -54,7 +54,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   static Future<void> updateLocalDatabase() async {
-    currentUser = firebaseAuth.currentUser;
 
     DatabaseReference userRef = FirebaseDatabase.instance
         .ref()

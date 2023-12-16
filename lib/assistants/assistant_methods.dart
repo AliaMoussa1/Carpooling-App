@@ -26,8 +26,6 @@ class AssistantMethods{
           "phone": userModelCurrentInfo!.phone,
         };
 
-        // await mydb.write('''INSERT INTO Users
-        //     (ID, Name, Email, Phone) VALUES ('${userModelCurrentInfo!.id}', '${userModelCurrentInfo!.name}', '${userModelCurrentInfo!.email}', '${userModelCurrentInfo!.phone}')''');
       }
     });
   }
