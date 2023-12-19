@@ -69,7 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       body: isLoading
-          ? CircularProgressIndicator()
+          ? Center( child: CircularProgressIndicator(),)
           : userData.isNotEmpty // Add this null check
     ?
       Padding(

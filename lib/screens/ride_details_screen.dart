@@ -60,16 +60,52 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
     };
 
 
-
     DatabaseReference rideRequestsRef = FirebaseDatabase.instance.ref().child("rides");
     await rideRequestsRef.child(widget.ride['driver_key']).child(rideKey).child("ride_requests").push().set(requestMap);
+
+    _addRideToUserRequests(requestMap);
 
     print('Widget.Ride is : ${widget.ride}');
 
   }
 
-  bool isPressed = false;
+  Future<void> _addRideToUserRequests(Map<String, dynamic> requestMap) async{
 
+    Map<String, dynamic> rideMap = {
+      "driver_key": widget.ride["driver_key"],
+      "driver": widget.ride["driver"],
+      "phone": widget.ride["phone"],
+      "date": widget.ride["date"],
+      "time": widget.ride["time"],
+      "start": widget.ride["start"],
+      "dst": widget.ride["dst"],
+      "stop_1": widget.ride["stop_1"],
+      "stop_2": widget.ride["stop_2"],
+      "stop_3": widget.ride["stop_3"],
+      "stop_4": widget.ride["stop_4"],
+      "stop_5": widget.ride["stop_5"],
+      "status": widget.ride["status"],
+      "gate": widget.ride["gate"],
+      "price": widget.ride["price"],
+    };
+
+    DatabaseReference userRequestsHistoryRef = FirebaseDatabase.instance.ref().child("users").child(currentUser!.uid);
+    await userRequestsHistoryRef.child("rides_requested").child(widget.rideKey).set(rideMap);
+    await userRequestsHistoryRef.child("rides_requested").child(widget.rideKey).update(requestMap);
+
+
+    // DatabaseReference driverRideRequestsRef = FirebaseDatabase.instance.ref().child("rides");
+    // await driverRideRequestsRef.child(widget.ride['driver_key']).child(widget.rideKey).onValue.listen((DatabaseEvent event) {
+    //   final data = event.snapshot.value;
+    //
+    //
+    // });
+
+  }
+
+
+
+  bool isPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -247,51 +283,26 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
             ),
 
 
-            ElevatedButton(
+            TextButton(
+              child: const Text("Request"),
+              key: ValueKey('request'),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.all(16.0),
+                textStyle: const TextStyle(fontSize: 25,),
+                foregroundColor: isPressed ? Colors.grey : Colors.deepPurpleAccent,
+              ),
               onPressed: () {
 
-                //Send request to driver and check time and date conditions
-                _requestRide(widget.rideKey);
+                setState(() {
+                  isPressed = !isPressed;
+                  _requestRide(widget.rideKey);
+                });
 
-                Navigator.push(context, MaterialPageRoute(builder: (c) => RidesHistoryScreen()));
+                //Send request to driver and check time and date conditions
+                // Navigator.push(context, MaterialPageRoute(builder: (c) => RidesHistoryScreen()));
 
               },
-              child: const Text(
-                'Request',
-                style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                ),
-              ),
-            )
-
-            // ElevatedButton(
-            //   onPressed: () {
-            //     // Send request to driver and check time and date conditions
-            //     _requestRide(widget.rideKey);
-            //     // Navigator.push(context, MaterialPageRoute(builder: (c) => RidesHistoryScreen()));
-            //     setState(() {
-            //       isPressed = true;
-            //     });
-            //   },
-            //   style: ButtonStyle(
-            //     backgroundColor: MaterialStateColor.resolveWith((states) {
-            //       if (isPressed) {
-            //         // Color when button is pressed
-            //         return Colors.grey; // Change to your desired color
-            //       }
-            //       // Default color
-            //       return Colors.deepPurpleAccent;
-            //     }),
-            //   ),
-            //   child: Text(
-            //         isPressed ? 'Requested' : 'Request',
-            //         style: TextStyle(
-            //           fontSize: 25,
-            //           color: Colors.white,
-            //         ),
-            //       ),
-            //  ),
+            ),
 
 
           ],
