@@ -13,7 +13,6 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
 
-  // DBHelper mydb = DBHelper();
   List<Map> userData = [];
 
 

@@ -40,45 +40,6 @@ class _FindRidesScreenState extends State<FindRidesScreen> {
   }
 
 
-  // Future<List?> _getRideData() async {
-  //   DatabaseReference ridesRef = FirebaseDatabase.instance.ref().child("rides");
-  //
-  //   ridesRef.onChildAdded.listen((DatabaseEvent event) {
-  //     Map data = event.snapshot.value as Map;
-  //
-  //     data.forEach((key, mapB) {
-  //       print("MapB is: ${mapB}");
-  //
-  //       // Access the "date" value from mapC
-  //       String date = mapB["date"];
-  //
-  //       DateTime todayDate = DateTime.now();
-  //       DateTime rideDate = DateFormat('dd-MM-yyyy').parse(date);
-  //
-  //
-  //       //Show only the rides that are available today or after today, don't show any rides whose status is No Seats
-  //       //Completed, or In Progress and definitely don't show any rides from previous days
-  //
-  //       if ((rideDate.isAfter(todayDate)
-  //           || rideDate.isAtSameMomentAs(todayDate))
-  //           && mapB["status"] == "Available"
-  //       ){
-  //         print("Data is : ${data}");
-  //
-  //         rideList.add(mapB);
-  //         print("RideList: " "$rideList");
-  //
-  //         // Check if the widget is mounted before updating the UI
-  //         if (mounted) {
-  //           setState(() {
-  //             filteredRides = List.from(rideList);
-  //           });
-  //         }
-  //       }
-  //     });
-  //
-  //   });
-
   Future<List?> _getRideData() async {
     DatabaseReference ridesRef = FirebaseDatabase.instance.ref().child("rides");
 
@@ -125,35 +86,6 @@ class _FindRidesScreenState extends State<FindRidesScreen> {
     }
   }
 
-  // Future<List?> _getRideData() async {
-  //   DatabaseReference ridesRef = FirebaseDatabase.instance.ref().child("rides");
-  //
-  //   ridesRef.onChildAdded.listen((DatabaseEvent event) {
-  //     Map data = event.snapshot.value as Map;
-  //
-  //     print("Data is : ${data}");
-  //
-  //     rideList.add(data);
-  //     print("RideList: " "$rideList");
-  //
-  //     // Check if the widget is mounted before updating the UI
-  //     if (mounted) {
-  //       setState(() {
-  //         filteredRides = List.from(rideList.reversed);
-  //       });
-  //     }
-  //   });
-  //
-  //   try {
-  //     return rideList;
-  //   } catch (e) {
-  //     throw e;
-  //   }
-  // }
-
-
-
-
   @override
   void initState() {
     _getRideData().then(
@@ -169,14 +101,6 @@ class _FindRidesScreenState extends State<FindRidesScreen> {
     super.initState();
   }
 
-  // DateTime _parseRideDate(String dateString) {
-  //   // Parse date in the format dd-MM-yyyy
-  //   List<String> dateParts = dateString.split('-');
-  //   int day = int.parse(dateParts[0]);
-  //   int month = int.parse(dateParts[1]);
-  //   int year = int.parse(dateParts[2]);
-  //   return DateTime(year, month, day);
-  // }
 
   bool isTodayOrAfter(DateTime date) {
     DateTime now = DateTime.now();
@@ -294,53 +218,7 @@ class _FindRidesScreenState extends State<FindRidesScreen> {
             );
           },
         ),
-
-
-
       ),
-
-      // body: Center(
-      //   child: ListView.builder(
-      //     padding: const EdgeInsets.all(8),
-      //     itemCount: filteredRides.length,
-      //     itemBuilder: (BuildContext context, int index) {
-      //       var rideDetails = filteredRides[index];
-      //
-      //       return Column(
-      //         crossAxisAlignment: CrossAxisAlignment.start,
-      //         children: [
-      //           ListTile(
-      //             title: Text(
-      //               '${rideDetails['start']} To ${rideDetails['dst']}',
-      //               style: TextStyle(color: Colors.black),
-      //             ),
-      //             subtitle: Text(
-      //               '${rideDetails['status']}\n${rideDetails['time']}\n${rideDetails['date']}',
-      //               style: TextStyle(color: Colors.black45, fontSize: 16),
-      //             ),
-      //             trailing: TextButton(
-      //               child: const Text(
-      //                 'View',
-      //                 style: TextStyle(color: Colors.white, fontSize: 16),
-      //               ),
-      //               onPressed: () {
-      //                 Navigator.push(
-      //                   context,
-      //                   MaterialPageRoute(
-      //                     builder: (c) => RideDetailsScreen(ride: rideDetails, rideKey: rideDetails['key']),
-      //                     // assuming 'key' is a key field in your data structure
-      //                   ),
-      //                 );
-      //               },
-      //             ),
-      //             tileColor: Colors.deepPurpleAccent.shade100,
-      //           ),
-      //           SizedBox(height: 8.0), // Add vertical space using SizedBox
-      //         ],
-      //       );
-      //     },
-      //   ),
-      // ),
 
     );
 

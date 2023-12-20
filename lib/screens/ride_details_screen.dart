@@ -94,13 +94,6 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
     await userRequestsHistoryRef.child("rides_requested").child(widget.rideKey).update(requestMap);
 
 
-    // DatabaseReference driverRideRequestsRef = FirebaseDatabase.instance.ref().child("rides");
-    // await driverRideRequestsRef.child(widget.ride['driver_key']).child(widget.rideKey).onValue.listen((DatabaseEvent event) {
-    //   final data = event.snapshot.value;
-    //
-    //
-    // });
-
   }
 
 
@@ -297,9 +290,6 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
                   isPressed = !isPressed;
                   _requestRide(widget.rideKey);
                 });
-
-                //Send request to driver and check time and date conditions
-                // Navigator.push(context, MaterialPageRoute(builder: (c) => RidesHistoryScreen()));
 
               },
             ),
