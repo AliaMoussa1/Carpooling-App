@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  void _submit() async {
+  void _login() async {
     if (_formKey.currentState!.validate()) {
       await firebaseAuth.signInWithEmailAndPassword(
           email: emailTextEditingController.text.trim(),
@@ -238,7 +238,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     )
                                 ),
                                 onPressed:  () {
-                                  _submit();
+                                  _login();
                                 },
                                 child: Text(
                                     'Login',

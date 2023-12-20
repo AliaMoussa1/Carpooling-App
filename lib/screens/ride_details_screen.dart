@@ -28,7 +28,8 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
 
     //Check if the app's time rules persist
 
-    if(DateTime.now().hour > 22 && widget.ride['time'] == "Morning Ride: 7:30 am" && widget.ride['date'] == DateFormat('dd-MM-yyyy').format(tomorrow)){
+    if((DateTime.now().hour > 22 && widget.ride['time'] == "Morning Ride: 7:30 am" && widget.ride['date'] == DateFormat('dd-MM-yyyy').format(tomorrow)) ||
+        (DateTime.now().hour >= 0 && widget.ride['time'] == "Morning Ride: 7:30 am" && widget.ride['date'] == DateFormat('dd-MM-yyyy').format(today))){
       Fluttertoast.showToast(msg: "Can't request morning ride after 10 pm");
       return;
     }
@@ -140,7 +141,7 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
                   child: Column(
                     children: [
                       const Icon(
-                        Icons.account_circle,
+                        Icons.drive_eta,
                         size: 100,
                       ),
 

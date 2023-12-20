@@ -106,7 +106,7 @@ class _RideTrackingScreenState extends State<RideTrackingScreen> {
                   child: Column(
                     children: [
                       const Icon(
-                        Icons.account_circle,
+                        Icons.drive_eta,
                         size: 100,
                       ),
                       Padding(

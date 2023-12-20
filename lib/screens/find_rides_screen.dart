@@ -21,6 +21,7 @@ class _FindRidesScreenState extends State<FindRidesScreen> {
   Widget appBarTitle = const Text('Carpool');
   Icon searchIcon = const Icon(Icons.search, color: Colors.white);
 
+  bool isLoading = true;
 
 
 
@@ -58,24 +59,28 @@ class _FindRidesScreenState extends State<FindRidesScreen> {
         // Show only the rides that are available today or after today,
         // don't show any rides whose status is No Seats, Completed, or In Progress,
         // and definitely don't show any rides from previous days
-        if ((rideDate.isAfter(todayDate) || rideDate.isAtSameMomentAs(todayDate)) && mapB["status"] == "Available") {
+        setState(() {
+
+          if ((rideDate.isAfter(todayDate) || rideDate.isAtSameMomentAs(todayDate)) && mapB["status"] == "Available") {
           // Create a new map where the key is taken from the outer loop (key) and the value is mapB
-          Map<String, dynamic> rideDataWithKey = {key: mapB};
+            Map<String, dynamic> rideDataWithKey = {key: mapB};
 
-          print("RideDataWithKey is: $rideDataWithKey");
+          // print("RideDataWithKey is: $rideDataWithKey");
 
-          // Add the new map to rideList
-          rideList.add(rideDataWithKey);
+          // rideList.add(rideDataWithKey);
 
-          print("RideList: $rideList");
+          // print("RideList: $rideList");
 
           // Check if the widget is mounted before updating the UI
-          if (mounted) {
-            setState(() {
+          // if (mounted) {
+              // Add the new map to rideList
+              rideList.add(rideDataWithKey);
               filteredRides = List.from(rideList);
-            });
+              isLoading = false;
           }
-        }
+        });
+          // }
+
       });
     });
 
@@ -170,7 +175,10 @@ class _FindRidesScreenState extends State<FindRidesScreen> {
       ),
 
 
-      body: Center(
+      body: isLoading
+        ? Center(child: CircularProgressIndicator())
+      :
+      Center(
         child: ListView.builder(
           padding: const EdgeInsets.all(8),
           itemCount: filteredRides.length,

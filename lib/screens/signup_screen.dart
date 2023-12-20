@@ -1,3 +1,4 @@
+import 'package:carpool/screens/forgot_password_screen.dart';
 import 'package:carpool/screens/login_screen.dart';
 import 'package:carpool/screens/profile_screen.dart';
 import 'package:email_validator/email_validator.dart';
@@ -56,7 +57,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
 
           }
-          Navigator.push(context, MaterialPageRoute(builder: (c) => ProfileScreen()));
+          Navigator.push(context, MaterialPageRoute(builder: (c) => LoginScreen()));
         }).catchError((errorMessage) {
           Fluttertoast.showToast(msg: "Error occurred: \n $errorMessage");
         });
@@ -309,7 +310,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
 
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (c) => ForgotPasswordScreen()));
+                                },
                                 child: Text(
                                     'Forgot Password?',
                                     style: TextStyle(
